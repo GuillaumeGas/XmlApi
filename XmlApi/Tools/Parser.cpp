@@ -102,23 +102,32 @@ XmlTagPtr Parser::_visitOpenTag() {
 	Position pos = Position(next->line, next->column);
 	if (next->type != TokenType::LEFT_ARROW)
 		throw new SyntaxErrorException("<", next->value, pos);
+	
 	string ident = _visitIdentifier();
+	string nameSpace;
 
 	next = _lex->next();
+	if (next->type == TokenType::COLON) {
+		nameSpace = ident;
+		ident = _visitIdentifier();
+		next = _lex->next();
+	}
+
 	if (next->type == TokenType::RIGHT_ARROW) {
-		return XmlTag::make(ident, pos);
+		return XmlTag::make(ident, nameSpace, pos);
 	}
 	else if (next->type == TokenType::SLASH) {
-		return XmlTag::make(ident, pos, true, true);
+		_lex->next();
+		return XmlTag::make(ident, nameSpace, pos, true, true);
 	}
 	else {
 		_lex->rewind();
 		vector<XmlAttrPtr> * attributes = _visitAttributes();
 		next = _lex->next();
 		if (next->type == TokenType::RIGHT_ARROW)
-			return XmlTag::make(ident, attributes, pos);
+			return XmlTag::make(ident, nameSpace, attributes, pos);
 		if (next->type == TokenType::SLASH)
-			return XmlTag::make(ident, attributes, pos, true);
+			return XmlTag::make(ident, nameSpace, attributes, pos, true);
 		throw new UnexpectedTokenException(next->value, Position(next->line, next->column));
 	}
 }
@@ -131,11 +140,20 @@ XmlTagPtr Parser::_visitCloseTag() {
 	next = _lex->next();
 	if (next->type != TokenType::SLASH)
 		throw new SyntaxErrorException("/", next->value, pos);
+	
 	string ident = _visitIdentifier();
+	string nameSpace;
+	
 	next = _lex->next();
+	if (next->type == TokenType::COLON) {
+		nameSpace = ident;
+		ident = _visitIdentifier();
+		next = _lex->next();
+	}
+
 	if (next->type != TokenType::RIGHT_ARROW)
 		throw new SyntaxErrorException(">", next->value, pos);
-	return XmlTag::make(ident, pos, true, false);
+	return XmlTag::make(ident, nameSpace, pos, true, false);
 }
 
 string Parser::_visitValue() {

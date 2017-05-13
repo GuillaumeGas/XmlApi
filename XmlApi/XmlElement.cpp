@@ -47,6 +47,8 @@ void XmlElement::print(ostream & out, int offset) {
 	out << endl;
 	if (_elements != nullptr) {
 		for (auto & it : *_elements) {
+			if (it == nullptr || it == NULL)
+				cout << "nullptr" << endl;
 			it->print(out, offset + OFFSET);
 			out << endl;
 		}
@@ -66,8 +68,12 @@ string XmlElement::getContent() const { return _content; }
 bool XmlElement::isSingle() const { return _isSingle; }
 
 void XmlElement::checkSemantic() {
+	if (_isSingle)
+		return;
 	if (_openTag->getName().compare(_closeTag->getName()) != 0)
-		throw new SemanticException(_openTag, _closeTag);
+		throw new InvalidTagNameException(_openTag, _closeTag);
+	if (_openTag->getNamespace().compare(_closeTag->getNamespace()) != 0)
+		throw new InvalidTagNamespaceException(_openTag, _closeTag);
 	if (_elements)
 		for (auto & it : *_elements)
 			it->checkSemantic();
