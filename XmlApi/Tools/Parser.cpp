@@ -164,12 +164,14 @@ string Parser::_visitIdentifier() {
 // Closing taf := </Identifier>
 bool Parser::_isNextClosingTag() {
 	TokenPtr next = _lex->next();
-	if (next->type != TokenType::LEFT_ARROW)
+	if (next->type != TokenType::LEFT_ARROW) {
+		_lex->rewind();
 		return false;
+	}
 	next = _lex->next();
+	_lex->rewind(2);
 	if (next->type != TokenType::SLASH)
 		return false;
-	_lex->rewind(2);
 	return true;
 }
 
