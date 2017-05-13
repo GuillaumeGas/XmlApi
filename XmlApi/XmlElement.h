@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "XmlTag.h"
+#include "Tools\exceptions\SemanticException.h"
 
 #define ROOT_NAME "ROOT"
 #define OFFSET 2
@@ -36,6 +37,7 @@ public:
 	bool isSingle() const;
 	std::vector<XmlElemPtr> * getElements() const;
 	std::string getContent() const;
+	void checkSemantic();
 
 private:
 	void _shift(std::ostream & out, int offset);

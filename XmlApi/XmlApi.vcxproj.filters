@@ -57,6 +57,9 @@
     <ClInclude Include="XmlTag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tools\exceptions\SemanticException.h">
+      <Filter>Header Files\Tools\exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

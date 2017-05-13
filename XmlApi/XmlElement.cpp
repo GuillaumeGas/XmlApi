@@ -65,6 +65,14 @@ vector<XmlElemPtr> * XmlElement::getElements() const { return _elements; }
 string XmlElement::getContent() const { return _content; }
 bool XmlElement::isSingle() const { return _isSingle; }
 
+void XmlElement::checkSemantic() {
+	if (_openTag->getName().compare(_closeTag->getName()) != 0)
+		throw new SemanticException(_openTag, _closeTag);
+	if (_elements)
+		for (auto & it : *_elements)
+			it->checkSemantic();
+}
+
 void XmlElement::_shift(ostream & out, int offset) {
 	for (int i = 0; i < offset; i++)
 		out << " ";

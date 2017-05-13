@@ -1,6 +1,7 @@
 #include "XmlApi.h"
 #include "Tools/exceptions/LexerException.h"
 #include "Tools/exceptions/ParserException.h"
+#include "Tools/exceptions/SemanticException.h"
 
 using namespace std;
 
@@ -22,11 +23,15 @@ void XmlApi::_parse() {
 		lex.setSkips({ " ", "\n", "\r", "\t" });
 		Parser parser(&lex);
 		_root = parser.parse();
+		_root->checkSemantic();
 	}
 	catch (LexerException * e) {
 		cout << e->toString() << endl;
 	}
 	catch (ParserException * e) {
+		cout << e->toString() << endl;
+	}
+	catch (SemanticException * e) {
 		cout << e->toString() << endl;
 	}
 }

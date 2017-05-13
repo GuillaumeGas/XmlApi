@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Tools\exceptions\LexerException.h" />
     <ClInclude Include="Tools\exceptions\ParserException.h" />
+    <ClInclude Include="Tools\exceptions\SemanticException.h" />
     <ClInclude Include="Tools\Parser.h" />
     <ClInclude Include="Tools\Position.h" />
     <ClInclude Include="Tools\TokenList.h" />
