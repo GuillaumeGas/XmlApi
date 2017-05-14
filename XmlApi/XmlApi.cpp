@@ -37,7 +37,10 @@ void XmlApi::_parse() {
 }
 
 void XmlApi::print() {
-	_root->print(cout, 0);
+	/*cout << "XmlElement ptr : " << _root.get() << endl;
+	vector<XmlElemPtr> * t = _root->getElements();
+	cout << "tag name : " << (*t)[0]->getOpenTag()->getName() << endl;
+	*/_root->print(cout, 0);
 	cout << endl;
 	cout.flush();
 }

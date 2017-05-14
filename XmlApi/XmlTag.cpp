@@ -34,6 +34,8 @@ string XmlTag::toString() const {
 		for (auto & it : *_attributes)
 			it->toString();
 	}
+	if (_isSingle)
+		ss << "/";
 	ss << "> (" << _pos.line << ", " << _pos.column << ")";
 	return ss.str();
 }
@@ -49,6 +51,8 @@ void XmlTag::print(ostream & out, int offset) const {
 		for (auto & it : *_attributes)
 			it->print(out);
 	}
+	if (_isSingle)
+		out << "/";
 	out << "> (" << _pos.line << ", " << _pos.column << ")";
 }
 

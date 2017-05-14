@@ -117,7 +117,9 @@ XmlTagPtr Parser::_visitOpenTag() {
 		return XmlTag::make(ident, nameSpace, pos);
 	}
 	else if (next->type == TokenType::SLASH) {
-		_lex->next();
+		next = _lex->next();
+		if (next->type != TokenType::RIGHT_ARROW)
+			throw new SyntaxErrorException(">", next->value, Position(next->line, next->column));
 		return XmlTag::make(ident, nameSpace, pos, true, true);
 	}
 	else {

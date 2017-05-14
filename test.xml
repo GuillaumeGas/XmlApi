@@ -1,1 +1,10 @@
-<a/>
+<html>
+	<head>
+		<title>Test</title>
+	</head>
+	<body onLoad="test">
+		<br/>
+		<h1 align="center">test</h1>
+	
+</html>
+

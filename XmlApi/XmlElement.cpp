@@ -5,7 +5,7 @@ using namespace std;
 XmlElement::XmlElement(XmlTagPtr openTag, XmlTagPtr closeTag) : _openTag(openTag), _closeTag(closeTag), _isSingle(false), _elements(nullptr) {}
 XmlElement::XmlElement(XmlTagPtr openTag, XmlTagPtr closeTag, string content) : _openTag(openTag), _closeTag(closeTag), _isSingle(false), _content(content), _elements(nullptr) {}
 XmlElement::XmlElement(XmlTagPtr openTag, XmlTagPtr closeTag, vector<XmlElemPtr> * elements) : _openTag(openTag), _closeTag(closeTag), _isSingle(false), _elements(elements) {}
-XmlElement::XmlElement(XmlTagPtr singleTag) : _openTag(singleTag), _isSingle(true) {}
+XmlElement::XmlElement(XmlTagPtr singleTag) : _openTag(singleTag), _isSingle(true), _elements(nullptr) {}
 
 XmlElement::~XmlElement() {
 	if (_elements)
@@ -44,7 +44,8 @@ string XmlElement::toString() const {
 
 void XmlElement::print(ostream & out, int offset) {
 	_openTag->print(out, offset);
-	out << endl;
+	if (!_isSingle)
+		out << endl;
 	if (_elements != nullptr) {
 		for (auto & it : *_elements) {
 			if (it == nullptr || it == NULL)
